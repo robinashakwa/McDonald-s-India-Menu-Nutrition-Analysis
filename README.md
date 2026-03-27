@@ -1,145 +1,152 @@
-# 🍔 McDonald's India — Menu Nutrition Analysis
+# 🍔 McDonald's India Menu Nutrition Analysis
 
-An end-to-end data analyst portfolio project that automates the full pipeline from raw CSV data to a professionally formatted Excel report — using **Python**, **SQL**, and **Excel (openpyxl)**.
+### End-to-End Data Analytics Pipeline (Python → SQL → Excel)
 
 ---
 
 ## 📌 Project Overview
 
-This project analyzes the nutritional content of McDonald's India's menu (141 items across 7 categories). The pipeline is fully automated: one Python script cleans the data, loads it into a SQLite database, runs analytical SQL queries, and generates a formatted multi-sheet Excel report.
+This project analyzes the nutritional composition of McDonald's India menu items and builds a complete **data analytics pipeline** that transforms raw data into actionable insights and a professional Excel dashboard.
 
-**Skills demonstrated:** Data cleaning · Feature engineering · SQL aggregations & filtering · Excel automation · Data storytelling
+The goal is to simulate a **real-world data analyst workflow**, where data is cleaned, analyzed, and presented in a structured report for decision-making.
 
 ---
 
-## 🗂️ Project Structure
+## 🎯 Problem Statement
 
-```
-mcdonalds-india-nutrition/
-│
-├── India_Menu.csv          # Raw dataset (source: Kaggle)
-├── pipeline.py             # Main automation script
-├── mcdonalds.db            # SQLite database 
-└── McDonalds_India_Nutrition_Analysis.xlsx  # Final Excel report 
-```
+Can customers make healthier food choices at McDonald's?
+
+This project aims to:
+
+* Identify high-calorie and high-sodium menu items
+* Analyze nutritional trends across categories
+* Detect healthier food options based on defined criteria
+* Deliver insights in a structured dashboard format
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer   | Tool / Library         | Purpose                              |
-|---------|------------------------|--------------------------------------|
-| Python  | `pandas`               | Data loading, cleaning, engineering  |
-| SQL     | `sqlite3`              | Database creation & analytical queries |
-| Excel   | `openpyxl`             | Formatted multi-sheet report output  |
+* **Python (Pandas, NumPy)** → Data Cleaning & Feature Engineering
+* **SQL (SQLite)** → Data Analysis & Querying
+* **Excel (OpenPyXL)** → Automated Dashboard & Reporting
 
-**Python version:** 3.8+  
-**Dependencies:** `pandas`, `openpyxl`
+---
+
+## 🔄 Data Pipeline
+
+```text
+Raw Dataset (CSV)
+        ↓
+Python (Cleaning + Feature Engineering)
+        ↓
+SQLite (Analytical Queries)
+        ↓
+Excel (Dashboard + Report Generation)
+```
+
+---
+
+## 🧹 Data Cleaning & Feature Engineering
+
+* Cleaned column names and handled text inconsistencies
+* Extracted numeric values from serving size
+* Created new analytical features:
+
+  * `High_Calorie` → Items above 500 kcal
+  * `High_Sodium` → Items above 800 mg sodium
+  * `Protein_Per_100kcal` → Protein efficiency metric
+
+---
+
+## 🧠 Key Analysis Performed
+
+### 📊 Category-Level Insights
+
+* Average calories, protein, fat, carbs, and sodium
+* Identification of calorie-dense categories
+
+### 🔥 High-Calorie Items
+
+* Top 10 items with highest calorie content
+* Helps identify unhealthy choices
+
+### 💪 High-Protein Items
+
+* Ranked by protein content
+* Evaluated protein efficiency (per 100 kcal)
+
+### ⚠️ High Sodium Alert
+
+* Flagged items exceeding safe sodium thresholds
+* Compared against WHO daily recommendations
+
+### ✅ Healthiest Picks
+
+* Filtered items based on:
+
+  * Low calories (<400 kcal)
+  * High protein (>8g)
+  * Low sodium (<700 mg)
+
+---
+
+## 📈 Output
+
+The pipeline generates a fully formatted Excel report with:
+
+* 📊 Dashboard (KPIs + category summary)
+* 🔥 High-calorie analysis with charts
+* 💪 High-protein analysis with charts
+* ⚠️ High sodium alerts
+* ✅ Healthy food recommendations
+* 📋 Cleaned raw dataset
+* 🗄️ SQL query reference
+
+---
+
+## 💡 Key Insights
+
+* Certain menu categories dominate calorie and sodium intake
+* Many items exceed recommended sodium levels in a single serving
+* Only a limited subset of items qualify as “healthy” based on defined criteria
+* Protein efficiency varies significantly across menu items
 
 ---
 
 ## 🚀 How to Run
 
-**1. Clone the repository**
 ```bash
-git clone https://github.com/your-username/mcdonalds-india-nutrition.git
-cd mcdonalds-india-nutrition
-```
-
-**2. Install dependencies**
-```bash
-pip install pandas openpyxl
-```
-
-**3. Run the pipeline**
-```bash
+pip install -r requirements.txt
 python pipeline.py
 ```
 
-The script will print progress logs and generate `mcdonalds.db` and the Excel report automatically.
+The script will generate the Excel report automatically.
 
 ---
 
-## 🔄 Pipeline Stages
+## 📂 Project Structure
 
-### Stage 1 — Python: Data Cleaning & Feature Engineering
-- Loads `India_Menu.csv` using pandas (141 rows, 13 columns)
-- Strips whitespace from column names and string values
-- Parses serving size strings (e.g., `"168 g"`) to numeric values
-- Engineers 3 new features:
-  - `High_Calorie` — flag for items > 500 kcal
-  - `High_Sodium` — flag for items > 800 mg sodium
-  - `Protein_Per_100kcal` — protein efficiency ratio
-
-### Stage 2 — SQL: Load & Query via SQLite
-Cleaned data is loaded into a local SQLite database. Five analytical queries are executed:
-
-| # | Query | Purpose |
-|---|-------|---------|
-| 1 | Category Nutrition Summary | AVG/MAX calories, protein, fat, sodium per category |
-| 2 | Top 10 Highest Calorie Items | Ranked by `Energy (kCal)` DESC |
-| 3 | Top 10 Highest Protein Items | Ranked by `Protein (g)` with efficiency ratio |
-| 4 | High Sodium Alert | Items where `Sodium > 800mg` |
-| 5 | Healthiest Picks | Items where calories < 400, protein > 8g, sodium < 700mg |
-
-**Sample SQL (Query 5 — Healthiest Picks):**
-```sql
-SELECT "Menu Category", "Menu Items",
-       "Energy (kCal)", "Protein (g)", "Sodium (mg)",
-       ROUND(Protein_Per_100kcal, 2) AS Protein_per_100kcal
-FROM menu
-WHERE "Energy (kCal)" < 400
-  AND "Protein (g)" > 8
-  AND "Sodium (mg)" < 700
-ORDER BY Protein_Per_100kcal DESC
-LIMIT 10;
+```text
+McDonalds-Nutrition-Analysis/
+│
+├── pipeline.py
+├── India_Menu.csv
+├── requirements.txt
+├── outputs/
+│   └── McDonalds_India_Nutrition_Analysis.xlsx
+└── README.md
 ```
 
-### Stage 3 — Excel: Automated Formatted Report
-A 7-sheet Excel workbook is generated with McDonald's brand colors, zebra-striped tables, KPI cards, and embedded bar charts.
+## 🧠 Key Learning
 
-| Sheet | Content |
-|-------|---------|
-| 📊 Dashboard | 8 KPI cards + full category nutrition summary table |
-| 🔥 High Calorie | Top 10 highest calorie items + bar chart |
-| 💪 High Protein | Top 10 highest protein items + bar chart |
-| ⚠️ High Sodium | 21 flagged items with color-coded severity levels |
-| ✅ Healthiest Picks | Smart-filtered best options from the menu |
-| 📋 Raw Data | Full 141-row cleaned dataset |
-| 🗄️ SQL Queries | All 5 SQL queries for reference |
+This project demonstrates:
 
+* End-to-end data analysis workflow
+* Data cleaning and feature engineering
+* Writing analytical SQL queries
+* Automating report generation
+* Translating data into business insights
+
+## Dataset source: https://www.kaggle.com/datasets/deepcontractor/mcdonalds-india-menu-nutrition-facts/data
 ---
-
-## 📊 Key Findings
-
-- **141 items** across 7 menu categories
-- **14 high-calorie items** exceed 500 kcal per serving
-- **21 high-sodium items** exceed 800 mg sodium — 40%+ of the daily recommended limit in one meal
-- The **Gourmet Menu** has the highest average calorie count per item
-- The **McCafe & Beverages** categories are the safest for low-sodium choices
-- Only **10 items** meet all three "healthy" criteria: < 400 kcal, > 8g protein, < 700mg sodium
-
----
-
-## 📁 Dataset
-
-**Source:** [McDonald's India Menu Nutrition Facts — Kaggle](https://www.kaggle.com/datasets/deepcontractor/mcdonalds-india-menu-nutrition-facts/data)
-
-**Columns:** Menu Category, Menu Items, Per Serve Size, Energy (kCal), Protein (g), Total fat (g), Sat Fat (g), Trans fat (g), Cholesterols (mg), Total carbohydrate (g), Total Sugars (g), Added Sugars (g), Sodium (mg)
-
----
-
-## 💡 What This Project Demonstrates
-
-- Writing clean, modular Python for data pipelines
-- Using SQL (`GROUP BY`, `ORDER BY`, `WHERE`, `LIMIT`, `ROUND`, `AVG`, `MAX`) for analysis
-- Automating Excel report generation with formatting, charts, and multiple sheets
-- End-to-end thinking: from raw data → insights → presentation
-- Portfolio-ready documentation and code structure
-
----
-
-## 📬 Contact
-
-**Robina Shakwa**
-https://www.linkedin.com/in/robina-shakwa-b4519b3b5/
