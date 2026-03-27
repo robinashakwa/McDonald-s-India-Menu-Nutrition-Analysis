@@ -19,8 +19,8 @@ mcdonalds-india-nutrition/
 │
 ├── India_Menu.csv          # Raw dataset (source: Kaggle)
 ├── pipeline.py             # Main automation script
-├── mcdonalds.db            # SQLite database (auto-generated)
-└── McDonalds_India_Nutrition_Analysis.xlsx  # Final Excel report (auto-generated)
+├── mcdonalds.db            # SQLite database 
+└── McDonalds_India_Nutrition_Analysis.xlsx  # Final Excel report 
 ```
 
 ---
